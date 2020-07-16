@@ -23,6 +23,63 @@ import Profile from "./components/Profile/Profile";
 import OrdersList from "./components/OrdersList/OrdersList";
 
 function App() {
+  // -----Login and Logout-----------
+  const userData = () => {
+    let data = localStorage.getItem("loggeduser");
+    if (data !== null) {
+      const objectData: LoggedUser = JSON.parse(data);
+      return objectData;
+      console.log(objectData);
+    } else {
+      return undefined;
+    }
+  };
+  const userToken = () => {
+    let Tken = localStorage.getItem("token");
+    if (Tken !== null) {
+      return Tken;
+    } else {
+      return "";
+    }
+  };
+
+  const [loggedUser, setLoggedUser] = useState<undefined | LoggedUser>(
+    userData()
+  );
+  const [token, setToken] = useState<string>(userToken());
+
+  React.useEffect(() => {
+    if (loggedUser !== undefined) {
+      localStorage.setItem("loggeduser", JSON.stringify(loggedUser));
+      localStorage.setItem("token", token);
+    }
+  }, [token, loggedUser]);
+
+  const handleLogin = async (credentials: Credentials) => {
+    try {
+      const loggedUser = await authService.login(credentials);
+      setToken(loggedUser.token);
+      setLoggedUser(loggedUser);
+      history.push("/");
+    } catch (err) {
+      getErrorMessage(err);
+    }
+  };
+
+  const handleSignOut = () => {
+    setLoggedUser(undefined);
+    localStorage.clear();
+  };
+
+  // Should not be from User Service
+  const handleChangeUserInfo: UserCallback = (user) => {
+    UserService.updateUser(user, token).then((edited) => {
+      setLoggedUser({ token, user } as LoggedUser);
+      setUsers(users.map((u) => (u._id === edited._id ? user : u)));
+    });
+    history.push(`/profile`);
+  };
+
   //  -------------- USERS ----------
   const [users, setUsers] = useState<User[]>([]);
   const [editedUser, setEditedUser] = useState<User>(
@@ -64,52 +121,6 @@ function App() {
       handleLogin(credentials);
       history.push("/");
     }
-  };
-
-  // Should not be from User Service
-  const handleChangeUserInfo: UserCallback = (user) => {
-    UserService.updateUser(user, token).then((edited) => {
-      setUsers(users.map((u) => (u._id === edited._id ? user : u)));
-    });
-    history.push(`/profile`);
-  };
-
-  // -----Login and Logout-----------
-  const userData = () => {
-    let data = localStorage.getItem("loggeduser");
-    if (data !== null) {
-      const objectData: LoggedUser = JSON.parse(data);
-      return objectData;
-      console.log(objectData);
-    } else {
-      return undefined;
-    }
-  };
-  const [loggedUser, setLoggedUser] = useState<undefined | LoggedUser>(
-    userData()
-  );
-  const [token, setToken] = useState<string>("");
-
-  React.useEffect(() => {
-    if (loggedUser !== undefined) {
-      localStorage.setItem("loggeduser", JSON.stringify(loggedUser));
-    }
-  }, [loggedUser]);
-
-  const handleLogin = async (credentials: Credentials) => {
-    try {
-      const loggedUser = await authService.login(credentials);
-      setToken(loggedUser.token);
-      setLoggedUser(loggedUser);
-      history.push("/");
-    } catch (err) {
-      getErrorMessage(err);
-    }
-  };
-
-  const handleSignOut = () => {
-    setLoggedUser(undefined);
-    localStorage.clear();
   };
 
   // --------- Menu ----------

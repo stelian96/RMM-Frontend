@@ -9,30 +9,17 @@ interface Props {
 }
 
 export default function Register({ onSubmitUser }: Props): ReactElement {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [fullname, setFullname] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-
   const { register, handleSubmit, errors } = useForm<User>();
+
   const onSubmit = (data: User) => {
-    const result = new User(
-      "",
-      fullname,
-      username,
-      email,
-      password,
-      phone,
-      address,
-      [Role.CUSTOMER]
-    );
-    onSubmitUser(result);
+    console.log(data);
+    data._id = "";
+    data.roles = [Role.CUSTOMER];
+    onSubmitUser(data);
   };
 
   return (
-    <div className="containerCenter bg-white">
+    <div className="containerCenter">
       <p className="containerHeader">Register</p>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>
@@ -40,11 +27,16 @@ export default function Register({ onSubmitUser }: Props): ReactElement {
           <input
             type="text"
             name="username"
-            onChange={(e) => setUsername(e.target.value)}
             ref={register({ required: true, minLength: 5, maxLength: 24 })}
           />
           {errors.username && errors.username.type === "required" && (
-            <div className="formError">Username with 5 to 24 characters is required.</div>
+            <div className="formError">Username is required.</div>
+          )}
+          {errors.username && errors.username.type === "minLength" && (
+            <div className="formError">Username min lenght is 5.</div>
+          )}
+          {errors.username && errors.username.type === "maxLength" && (
+            <div className="formError">Username max lenght is 24.</div>
           )}
         </label>
         <label>
@@ -52,21 +44,18 @@ export default function Register({ onSubmitUser }: Props): ReactElement {
           <input
             type="password"
             name="password"
-            onChange={(e) => setPassword(e.target.value)}
-            ref={register({ required: true, minLength:6 })}
+            ref={register({ required: true, minLength: 6 })}
           />
           {errors.password && errors.password.type === "required" && (
-            <div className="formError">Password with 6 characters is required.</div>
+            <div className="formError">Password is required.</div>
+          )}
+          {errors.password && errors.password.type === "minLength" && (
+            <div className="formError">Password min lenght is 6.</div>
           )}
         </label>
         <label>
           Email:
-          <input
-            type="email"
-            name="email"
-            onChange={(e) => setEmail(e.target.value)}
-            ref={register({ required: true })}
-          />
+          <input type="email" name="email" ref={register({ required: true })} />
           {errors.email && errors.email.type === "required" && (
             <div className="formError">Your must enter your Email.</div>
           )}
@@ -76,11 +65,16 @@ export default function Register({ onSubmitUser }: Props): ReactElement {
           <input
             type="text"
             name="fullName"
-            onChange={(e) => setFullname(e.target.value)}
-            ref={register({ required: true, minLength: 4, maxLength:24 })}
+            ref={register({ required: true, minLength: 4, maxLength: 24 })}
           />
           {errors.fullName && errors.fullName.type === "required" && (
-            <div className="formError">Name with 4-24 characters is required.</div>
+            <div className="formError">Name is required.</div>
+          )}
+          {errors.fullName && errors.fullName.type === "minLength" && (
+            <div className="formError">Name min length is 4.</div>
+          )}
+          {errors.fullName && errors.fullName.type === "maxLength" && (
+            <div className="formError">Name max lenght is 24.</div>
           )}
         </label>
         <label>
@@ -88,23 +82,33 @@ export default function Register({ onSubmitUser }: Props): ReactElement {
           <input
             type="text"
             name="phone"
-            onChange={(e) => setPhone(e.target.value)}
-            ref={register({ required: true, minLength:10, maxLength:14 })}
+            ref={register({ required: true, minLength: 10, maxLength: 14 })}
           />
           {errors.phone && errors.phone.type === "required" && (
             <div className="formError">Please enter valid number.</div>
+          )}
+          {errors.phone && errors.phone.type === "maxLength" && (
+            <div className="formError">Number is not valid: min lenght 10.</div>
+          )}
+          {errors.phone && errors.phone.type === "maxLength" && (
+            <div className="formError">Number is not valid: max lenght 10 </div>
           )}
         </label>
         <div className="textArea">
           <label>Address: </label>
           <textarea
             name="address"
-            onChange={(e) => setAddress(e.target.value)}
-            ref={register({ required: true })}
+            ref={register({ required: true, minLength: 6, maxLength: 95 })}
           />
         </div>
         {errors.address && errors.address.type === "required" && (
           <div className="formError">Your must enter Address for delivery.</div>
+        )}
+        {errors.address && errors.address.type === "maxLength" && (
+          <div className="formError">Should be less than 95 characters.</div>
+        )}
+        {errors.address && errors.address.type === "minLength" && (
+          <div className="formError">Should be more than 6 characters.</div>
         )}
         <small>
           Already have an account ? <Link to="/login">Click to Sign In</Link>

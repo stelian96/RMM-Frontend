@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { User, Role } from "../../models/user-model";
 import { UserCallback } from "../../shared/shared";
+import { useForm } from "react-hook-form";
 
 interface Props {
   user: User;
@@ -8,12 +9,7 @@ interface Props {
 }
 
 export default function EditUser({ user, onSubmitUser }: Props): ReactElement {
-  const [username, setUsername] = useState(user?.username);
-  const [email, setEmail] = useState(user?.email);
-  const [fullname, setFullname] = useState(user?.fullName);
-  const [phone, setPhone] = useState(user?.phone);
-  const [address, setAddress] = useState(user?.address);
-  const [roles, setRoles] = useState(user?.roles[0]+"");
+  const [roles, setRoles] = useState(user?.roles[0] + "");
 
   const handleRoles = () => {
     if (roles === "0") {
@@ -22,90 +18,125 @@ export default function EditUser({ user, onSubmitUser }: Props): ReactElement {
       return [Role.MANAGER];
     } else if (roles === "2") {
       return [Role.ADMIN];
+    } else {
+      return [Role.CUSTOMER];
     }
   };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const result = new User(
-      user?._id,
-      fullname,
-      username,
-      email,
-      user.password,
-      phone,
-      address,
-      handleRoles()
-    );
-    onSubmitUser(result);
+  const { register, handleSubmit, errors } = useForm<User>();
+  const onSubmit = (data: User) => {
+    data._id = user._id;
+    data.username = user.username;
+    data.password = user.password;
+    data.roles = handleRoles();
+    onSubmitUser(data);
   };
   return (
-    <div className="containerCenter bg-white">
+    <div className="containerCenter">
       <p className="containerHeader">Edit User</p>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <label>
           Username:
-          <input
-            value={username}
-            type="text"
-            name="username"
-            onChange={(e) => setUsername(e.target.value)}
-            disabled
-          />
+          <input value={user.username} type="text" name="username" disabled />
         </label>
         <label>
           Email:
           <input
-            value={email}
+            defaultValue={user.email}
             type="email"
             name="email"
-            onChange={(e) => setEmail(e.target.value)}
+            ref={register({ required: true })}
           />
+          {errors.email && errors.email.type === "required" && (
+            <div className="formError">Your must enter your Email.</div>
+          )}
         </label>
         <label>
           Full name:
           <input
-            value={fullname}
+            defaultValue={user.fullName}
             type="text"
-            name="fullname"
-            onChange={(e) => setFullname(e.target.value)}
+            name="fullName"
+            ref={register({ required: true, minLength: 4, maxLength: 24 })}
           />
+          {errors.fullName && errors.fullName.type === "required" && (
+            <div className="formError">Name is required.</div>
+          )}
+          {errors.fullName && errors.fullName.type === "minLength" && (
+            <div className="formError">Name min length is 4.</div>
+          )}
+          {errors.fullName && errors.fullName.type === "maxLength" && (
+            <div className="formError">Name max lenght is 24.</div>
+          )}
         </label>
         <label>
           Phone:
           <input
-            value={phone}
+            defaultValue={user.phone}
             type="text"
             name="phone"
-            onChange={(e) => setPhone(e.target.value)}
+            ref={register({ required: true, minLength: 10, maxLength: 14 })}
           />
+          {errors.phone && errors.phone.type === "required" && (
+            <div className="formError">Please enter valid number.</div>
+          )}
+          {errors.phone && errors.phone.type === "maxLength" && (
+            <div className="formError">Number is not valid: min lenght 10.</div>
+          )}
+          {errors.phone && errors.phone.type === "maxLength" && (
+            <div className="formError">Number is not valid: max lenght 10 </div>
+          )}
         </label>
         <div className="textArea">
-        <label>
-          Address:        </label>
+          <label>Address: </label>
           <textarea
-            value={address}
+            defaultValue={user.address}
             name="address"
-            onChange={(e) => setAddress(e.target.value)}
+            ref={register({ required: true, minLength: 6, maxLength: 95 })}
           />
-</div>
-        <div className="radio">
-        <label>Roles:</label>
-        <div className="radiobox">
-          <label>
-            <input name="role" type="radio" value="0" defaultChecked={user.roles[0] === 0} onClick={(e) => setRoles("0")} />
-            Customer
-          </label>
-          <label>
-            <input name="role" type="radio" value="1" defaultChecked={user.roles[0] === 1} onClick={(e) => setRoles("1")}/>
-            Manager
-          </label>
-          <label>
-            <input name="role" type="radio" value="2" defaultChecked={user.roles[0] === 2} onClick={(e) => setRoles("2")}/>
-            Admin
-          </label>
         </div>
-        
+        {errors.address && errors.address.type === "required" && (
+          <div className="formError">Your must enter Address for delivery.</div>
+        )}
+        {errors.address && errors.address.type === "maxLength" && (
+          <div className="formError">Should be less than 95 characters.</div>
+        )}
+        {errors.address && errors.address.type === "minLength" && (
+          <div className="formError">Should be more than 6 characters.</div>
+        )}
+        <div className="radio">
+          <label>Roles:</label>
+          <div className="radiobox">
+            <label>
+              <input
+                name="roles"
+                type="radio"
+                value="0"
+                defaultChecked={user.roles[0] === 0}
+                onClick={(e) => setRoles("0")}
+              />
+              Customer
+            </label>
+            <label>
+              <input
+                name="roles"
+                type="radio"
+                value="1"
+                defaultChecked={user.roles[0] === 1}
+                onClick={(e) => setRoles("1")}
+              />
+              Manager
+            </label>
+            <label>
+              <input
+                name="roles"
+                type="radio"
+                value="2"
+                defaultChecked={user.roles[0] === 2}
+                onClick={(e) => setRoles("2")}
+              />
+              Admin
+            </label>
+          </div>
         </div>
         <input className="submit" type="submit" value="Submit" />
       </form>

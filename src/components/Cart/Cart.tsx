@@ -21,13 +21,12 @@ export default function Cart({
   onDeleteOrder,
   onSubmitOrder,
 }: Props): ReactElement {
-  const [_id, setId] = useState("");
   const [address, setAddress] = useState(loggedUser?.user.address);
 
   const handleSubmitOrder = () => {
     if (loggedUser !== undefined && address !== undefined) {
       const result = new OrderInfo(
-        _id,
+        "",
         loggedUser?.user.username,
         loggedUser?.user.fullName,
         address,
@@ -42,7 +41,7 @@ export default function Cart({
   };
 
   return (
-    <div className="containerCenter bg-white width-600">
+    <div className="containerCenter width-600">
       <p className="containerHeader">Your Shopping Cart</p>
       {orderList.length === 0? <p>It is Empty :( </p> : <Fragment>
         {orderList.map((order, index) => (
