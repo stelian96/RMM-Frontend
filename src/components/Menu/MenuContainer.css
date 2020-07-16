@@ -1,0 +1,93 @@
+.menuContainer {
+  width: 69vw;
+  background-color: rgba(255, 255, 255, 0.7);
+  position: absolute;
+  left: 50%;
+  top: 12vh;
+  transform: translate(-50%, 0%);
+}
+.menuContainer h1 {
+  margin: 1rem;
+  text-align: center;
+  letter-spacing: 0.125rem;
+}
+.menuContainer a {
+  background-color: #fabf3f;
+  border: none;
+  padding: 0.4em 0.8em;
+  letter-spacing: 0.125rem;
+  font-size: 1.1rem;
+  margin: 0rem 1.5rem;
+  color: black;
+  text-decoration: none;
+}
+.menuContainer a:hover {
+  background-color: #dab464;
+}
+.menu-category {
+  padding: 0rem 1rem;
+  margin: 2rem 0rem;
+  font-size: 1.4rem;
+  border-bottom: 1px solid #333333;
+  color: #333333;
+  width: 250px;
+}
+.menu-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+.menu-item {
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+  width: 411px;
+  height: 540px;
+  background: white;
+  margin: 15px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.23);
+}
+.menu-item-image {
+  background-color: black;
+  width: 100%;
+  height: 60%;
+}
+.menu-item-image img {
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+}
+.menu-item .contentItem {
+  width: 100%;
+  height: 35%;
+}
+.foodname {
+  text-align: center;
+  margin: 10px 0px;
+}
+.description {
+  padding: 0px 15px;
+  font-style: italic;
+  font-weight: 300;
+  height: 50px;
+  overflow: hidden;
+}
+.allergens {
+  text-align: center;
+  font-size: 14px;
+  padding: 0.5em 1em;
+  display: flex;
+  justify-content: space-around;
+}
+.orderSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 1.5em 1.3em;
+}
+
+@media only screen and (max-width: 768px) {
+.menuContainer {
+  top: 8vh;
+  width: 100%;
+}
+}

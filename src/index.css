@@ -1,13 +1,155 @@
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0.05rem;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(./assets/jay-wennington-N_Y88TWmGwA-unsplash.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.material-icons {
+  cursor: pointer;
+}
+.material-icons:hover {
+  color: #fa923f;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* FORMS */
+.containerCenter {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 2.5em 5em;
+  background-color: rgba(255, 255, 255, 0.7);
 }
+.containerHeader {
+  margin-bottom: 1.2em;
+  font-size: 1.4rem;
+}
+.containerCenter form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* INPUTS */
+.containerCenter input {
+  padding: 0.5em 1.5em;
+  background-color: rgba(255, 255, 255, 0.7);
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0);
+  margin: 0.6vh 10px;
+}
+.containerCenter input:focus {
+  border: 1px solid black;
+}
+.formError {
+  color: #f8770e;
+  font-size: 0.9rem;
+}
+.containerCenter small {
+  align-self: center;
+  margin: 1.5em 0em;
+}
+.containerCenter a {
+  color: #0000ee;
+}
+.containerCenter .submit {
+  width: 100%;
+  background-color: #fa923f;
+  border: none;
+  padding: 0.5em 1.5em;
+  letter-spacing: 2px;
+  font-size: 1.1rem;
+}
+.radio {
+  display: flex;
+    align-self: baseline;
+    padding: 0em 2.7em;
+    margin-bottom: 0.5em;
+}
+.radiobox {
+  display: flex;
+    flex-direction: column;
+    align-items: baseline;
+}
+/* Buttons */
+.btnEdit {
+  background-color: #fa923f;
+  border: none;
+  padding: 0.2em 0.8em;
+  letter-spacing: 2px;
+  font-size: 1.1rem;
+  margin: 0em 0.2em;
+}
+.btnEdit:hover {
+  background-color: #d39868;
+}
+
+.btnDelete {
+  background-color: #fa453f;
+  border: none;
+  padding: 0.2em 0.8em;
+  letter-spacing: 2px;
+  font-size: 1.1rem;
+  margin: 0em 0.2em;
+}
+.btnDelete:hover {
+  background-color: #ff746f;
+}
+
+textarea {
+  padding: 0.5rem 1.2rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0);
+  margin: 5px 10px;
+  height: 74px;
+  width: 210px;
+  resize: none;
+  align-self: center;
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+}
+
+.textArea{
+  display: flex;
+  align-items: flex-end;
+}
+.textArea label{
+  align-self: end;
+}
+
+
+
+@media only screen and (max-width: 768px) {
+  .containerCenter {
+    top: 8vh;
+    transform: translate(-50%, 0%);
+    padding: 1.5em 4em;
+    width: 100vw;
+  }
+  .radio {
+    padding: 0em 1em;
+  }
+  .textArea {
+    display: inline;
+  }
+  textarea{
+    width: 85%;
+  }
+}
+

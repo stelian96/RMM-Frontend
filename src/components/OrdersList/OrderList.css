@@ -1,0 +1,53 @@
+/* Tables */
+.orderTable {
+  display: table;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+.divTableRow {
+  display: table-row;
+}
+.divTableHeading {
+  background-color: #eee;
+  display: table-header-group;
+}
+.divTableCell,
+.divTableHead {
+  border: 1px solid #999999;
+  display: table-cell;
+  padding: 3px 10px;
+}
+.divTableHeading {
+  background-color: #eee;
+  display: table-header-group;
+  font-weight: bold;
+}
+.divTableFoot {
+  background-color: #eee;
+  display: table-footer-group;
+  font-weight: bold;
+}
+.divTableBody {
+  display: table-row-group;
+}
+.width-50 {
+  width: 50vh;
+}
+
+
+.ordersPadding {
+    padding: 1rem;
+    top: 10vh;
+    transform: translate(-50%, 0%);
+}
+
+.displayFlex {
+  display: flex;
+  justify-content: space-between;
+  padding: .1rem .1rem;
+}
+.finalSector{
+  padding-top: 1.5rem;
+}
+.displayFlex .itemPrice {
+  padding: 0rem 0rem 0rem 1.5rem;
+}

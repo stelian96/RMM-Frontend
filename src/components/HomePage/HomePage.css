@@ -1,0 +1,38 @@
+.homeContainer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.homeContainer p {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.homeContainer a {
+  margin: 0 auto;
+  font-size: 4rem;
+  color: white;
+  text-decoration: none;
+  padding: 0px 30px;
+}
+
+.homeContainer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .homeContainer {
+    width: 90vw;
+  }
+  .homeContainer p {
+    font-size: 1rem;
+  }
+  .homeContainer a {
+    padding: 5px;
+    display: block;
+    font-size: 2.25rem;
+  }
+}
