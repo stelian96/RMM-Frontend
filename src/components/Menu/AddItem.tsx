@@ -28,7 +28,7 @@ export default function AddItem({ menu, onSubmitItem }: Props): ReactElement {
     }
   };
   const onSubmit = (data: Menu) => {
-    data._id = "";
+    data._id = menu._id?menu._id:"";
     data.category = handleCategories();
     onSubmitItem(data);
   };
@@ -134,6 +134,7 @@ export default function AddItem({ menu, onSubmitItem }: Props): ReactElement {
         <div className="textArea">
           <label>Description: </label>
           <textarea
+            defaultValue={menu?.description}
             name="description"
             ref={register({ required: true, maxLength: 80 })}
           />
