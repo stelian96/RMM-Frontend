@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { Credentials } from "../../models/auth";
 import { CredentialsCallback } from "../../shared/shared";
 import { useForm } from "react-hook-form";
+import { getErrorMessage } from "../../service/service-utils";
 
 interface Props {
   SubmitLogin: CredentialsCallback;
+  loginError: string;
 }
 
-export default function SignIn({ SubmitLogin }: Props): ReactElement {
+export default function SignIn({ SubmitLogin, loginError }: Props): ReactElement {
   const { register, handleSubmit, errors } = useForm<Credentials>();
   const login = (data: Credentials) => {
     SubmitLogin(data);
@@ -45,7 +47,8 @@ export default function SignIn({ SubmitLogin }: Props): ReactElement {
         <small>
           Don't have an account ? <Link to="/register">Click to Register</Link>
         </small>
-
+        
+      {loginError.length > 0? <p className="serverError">Wrong Credentials !</p>: null}
         <input className="submit" type="submit" value="Submit" />
       </form>
     </div>

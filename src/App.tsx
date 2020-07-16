@@ -29,7 +29,6 @@ function App() {
     if (data !== null) {
       const objectData: LoggedUser = JSON.parse(data);
       return objectData;
-      console.log(objectData);
     } else {
       return undefined;
     }
@@ -47,6 +46,7 @@ function App() {
     userData()
   );
   const [token, setToken] = useState<string>(userToken());
+  const [loginError, setLoginError] = useState<string>("");
 
   React.useEffect(() => {
     if (loggedUser !== undefined) {
@@ -61,8 +61,10 @@ function App() {
       setToken(loggedUser.token);
       setLoggedUser(loggedUser);
       history.push("/");
+      setLoginError("");
     } catch (err) {
       getErrorMessage(err);
+      setLoginError(getErrorMessage(err));
     }
   };
 
@@ -99,7 +101,6 @@ function App() {
   const handleDeleteUser: UserCallback = (user) => {
     UserService.deleteUser(user._id, token).then((deleted) => {
       setUsers(users.filter((u) => u._id !== deleted._id));
-      console.log(users);
     });
   };
 
@@ -112,15 +113,20 @@ function App() {
       history.push(`/usermanage`);
     } else {
       //Create
-      UserService.createNewUser(user).then((created) => {
-        setUsers(users.concat(created));
-      });
-      const username = user.username;
-      const password = user.password;
-      const credentials: Credentials = { username, password };
-      handleLogin(credentials);
-      history.push("/");
-    }
+      try {
+        UserService.createNewUser(user).then((created) => {
+          setUsers(users.concat(created));
+        });
+        const username = user.username;
+        const password = user.password;
+        const credentials: Credentials = { username, password };
+        handleLogin(credentials);
+        history.push("/");
+      } catch(err) {
+        setLoginError(getErrorMessage(err));
+      }
+      }
+      
   };
 
   // --------- Menu ----------
@@ -182,7 +188,6 @@ function App() {
     const outputArray = [];
     let foundCount = 0;
     const searchValue = item._id;
-    console.log(searchValue);
 
     for (let i = 0; i < orderList.length; i++) {
       if (orderList[i]._id === searchValue && foundCount === 0) {
@@ -254,7 +259,7 @@ function App() {
           )}
         </Route>
         <Route path="/login">
-          <SignIn SubmitLogin={handleLogin} />
+          <SignIn SubmitLogin={handleLogin} loginError={loginError} />
         </Route>
         <Route path="/register">
           <Register onSubmitUser={handleSubmitUser} />

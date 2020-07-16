@@ -21,7 +21,9 @@ export default function Cart({
   onDeleteOrder,
   onSubmitOrder,
 }: Props): ReactElement {
-  const [address, setAddress] = useState(loggedUser?.user.address);
+  const [address, setAddress] = useState(
+    loggedUser !== undefined ? loggedUser?.user.address : ""
+  );
 
   const handleSubmitOrder = () => {
     if (loggedUser !== undefined && address !== undefined) {
@@ -32,7 +34,7 @@ export default function Cart({
         address,
         loggedUser?.user.phone,
         orderList,
-        new Date,
+        new Date(),
         totalPrice,
         [Status.ACTIVE]
       );
@@ -43,28 +45,33 @@ export default function Cart({
   return (
     <div className="containerCenter width-600">
       <p className="containerHeader">Your Shopping Cart</p>
-      {orderList.length === 0? <p>It is Empty :( </p> : <Fragment>
-        {orderList.map((order, index) => (
-        <Order order={order} key={index} onDeleteOrder={onDeleteOrder} />
-      ))}
-      <div className="address cart">
-        <label>Address for delivery: </label>
-        <textarea
-          value={address}
-          name="address"
-          onChange={(e) => setAddress(e.target.value)}
-        />
-
-        <br />
-      </div>
-      <div className="confirmOrder">
-      <p className="title">Total Price: {totalPrice} $</p>
-      <button className="btnEdit" onClick={handleSubmitOrder}>
-        Confirm Order
-      </button>
-      </div>
-      </Fragment>}
-      
+      {orderList.length === 0 ? (
+        <p>It is Empty :( </p>
+      ) : (
+        <Fragment>
+          {orderList.map((order, index) => (
+            <Order order={order} key={index} onDeleteOrder={onDeleteOrder} />
+          ))}
+          <div className="address cart">
+            <label>Address for delivery: </label>
+            <textarea
+              value={address}
+              name="address"
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            {address.length === 0 ? (
+              <div className="formError">Address for delivery is required.</div>
+            ) : null}
+            <br />
+          </div>
+          <div className="confirmOrder">
+            <p className="title">Total Price: {totalPrice} $</p>
+            <button className="btnEdit" onClick={handleSubmitOrder}>
+              Confirm Order
+            </button>
+          </div>
+        </Fragment>
+      )}
     </div>
   );
 }

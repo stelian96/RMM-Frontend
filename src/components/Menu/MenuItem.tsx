@@ -42,7 +42,9 @@ export default function MenuItem({
         <h4 className="foodname">{menu.foodName}</h4>
         <p className="description">{menu.description}</p>
         <div className="allergens">
-          <p>Allergens: {menu.allergens}</p>
+          {menu.allergens.length > 0?<p>Allergens: {menu.allergens}</p>:<div className="spacer"></div>}
+          
+          
           <p> {menu.quantity}</p>
         </div>
         <div className="orderSection">

@@ -28,6 +28,7 @@ export const USERS_API = 'http://localhost:9000/';
             body: JSON.stringify(user),
         });
         const created = await resp.json();
+        
         return created;
     }
 

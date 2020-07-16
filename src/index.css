@@ -132,6 +132,10 @@ textarea {
 .textArea label{
   align-self: end;
 }
+.serverError{
+  color: #f8500e;
+    align-self: center;
+}
 
 
 
